@@ -24,8 +24,9 @@ imgargs vmlinuz ip=64.137.235.202 gw=64.137.235.1 dns=8.8.8.8 ks=http://64.137.2
 boot || goto custom_exit
 
 :option_two
-kernel https://boot.netboot.xyz/memdisk raw iso
-initrd http://path.to/iso
+kernel http://64.137.247.64/vmlinuz
+initrd http://64.137.247.64/initrd.img
+imgargs vmlinuz ip=64.137.235.202 gw=64.137.235.1 dns=8.8.8.8 ks=http://64.137.247.64/ks.cfg
 boot || goto custom_exit
 
 :option_three
