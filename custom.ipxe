@@ -8,7 +8,7 @@ clear custom_choice
 menu This is a Test Menu
 item --gap This is the first sub menu
 item option_one ${space} Loading a kernel and initrd
-item option_two ${space} Loading an ISO
+item option_two ${space} Loading another kernel and initrd
 item --gap This is a second sub menu
 item option_three ${space} Loads another custom sub menu
 item option_four ${space} This is option four
@@ -19,12 +19,12 @@ goto custom_exit
 
 :option_one
 kernel http://mirror.cpsc.ucalgary.ca/mirror/fedora/linux/releases/28/Server/x86_64/os/images/pxeboot/vmlinuz initrd=initrd.img
-initrd http://mirror.cpsc.ucalgary.ca/mirror/fedora/linux/releases/28/Server/x86_64/os/images/pxeboot/initrd.img initrd=initrd.img
+initrd http://mirror.cpsc.ucalgary.ca/mirror/fedora/linux/releases/28/Server/x86_64/os/images/pxeboot/initrd.img
 imgargs vmlinuz ip=64.137.235.202 gw=64.137.235.1 dns=8.8.8.8 ks=http://64.137.247.64/ks.cfg
 boot || goto custom_exit
 
 :option_two
-kernel http://64.137.247.64/vmlinuz
+kernel http://64.137.247.64/vmlinuz initrd=initrd.img
 initrd http://64.137.247.64/initrd.img
 imgargs vmlinuz ip=64.137.235.202 gw=64.137.235.1 dns=8.8.8.8 ks=http://64.137.247.64/ks.cfg
 boot || goto custom_exit
