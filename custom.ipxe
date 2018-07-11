@@ -1,12 +1,37 @@
 #!ipxe
 ###
-### netboot.xyz-custom menu
+### netboot.xyz-custom menu example
 ###
 
-:start
-echo Hello world!
-sleep 10
+:custom
+clear custom_choice
+menu This is a Test Menu
+item --gap This is the first sub menu
+item option_one ${space} Loading a kernel and initrd
+item option_two ${space} Loading an ISO
+item --gap This is a second sub menu
+item option_three ${space} Loads another custom sub menu
+item option_four ${space} This is option four
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
 goto custom_exit
 
+:option_one
+kernel http://mirror.cpsc.ucalgary.ca/mirror/fedora/linux/releases/28/Server/x86_64/os/images/pxeboot/vmlinuz
+initrd http://mirror.cpsc.ucalgary.ca/mirror/fedora/linux/releases/28/Server/x86_64/os/images/pxeboot/initrd.img
+imgargs vmlinuz ip=64.137.235.202 gw=64.137.235.1 dns=8.8.8.8 ks=http://64.137.247.64/ks.cfg
+boot || goto custom_exit
+
+:option_two
+kernel https://boot.netboot.xyz/memdisk raw iso
+initrd http://path.to/iso
+boot || goto custom_exit
+
+:option_three
+echo Chains into another menu...
+chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
+
 :custom_exit
-exit 0
+chain utils.ipxe
+exit
